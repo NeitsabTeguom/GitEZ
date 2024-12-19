@@ -1,26 +1,28 @@
 # Custom GitEZ Aliases
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Feature
-alias gez-fs="./feature-start.sh"
-alias gez-ff="./feature-finish.sh"
+alias gez-fs="$DIR/feature-start.sh"
+alias gez-ff="$DIR/feature-finish.sh"
 
 # Bugfix
-alias gez-bs="./bugfix-start.sh"
-alias gez-bf="./bugfix-finish.sh"
+alias gez-bs="$DIR/bugfix-start.sh"
+alias gez-bf="$DIR/bugfix-finish.sh"
 
 # Hotfix
-alias gez-hs="./hotfix-start.sh"
-alias gez-hf="./hotfix-finish.sh"
+alias gez-hs="$DIR/hotfix-start.sh"
+alias gez-hf="$DIR/hotfix-finish.sh"
 
 # Release
-alias gez-rs="./release-start.sh"
-alias gez-rf="./release-finish.sh"
+alias gez-rs="$DIR/release-start.sh"
+alias gez-rf="$DIR/release-finish.sh"
 
 # Automation of local changes and sending
-alias gsave="./push-all.sh"
+alias gez-save="$DIR/push-all.sh"
 
 # To check out the master branch automatically
-alias gez-main="./inc/detect-main-branch.sh && echo \$MAIN_BRANCH"
+alias gez-main="$DIR/inc/detect-main-branch.sh && echo \$MAIN_BRANCH"
 
 # Common commands
 alias gadd="git add ."
