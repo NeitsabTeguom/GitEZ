@@ -54,7 +54,6 @@ To use this project's custom aliases and scripts, you can include the project's 
    ```bash
    source ~/.bash_profile
    ```
-   ```
    or
    ```bash
    source ~/.profile
