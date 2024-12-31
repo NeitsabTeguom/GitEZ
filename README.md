@@ -19,6 +19,7 @@ A collection of Bash scripts to automate Git commands.
 Clone this repository :
    ```bash
    git clone https://github.com/NeitsabTeguom/GitEZ.git
+   ```
 
 ## Integrating the project's `.bashrc`
 
@@ -32,6 +33,7 @@ To use this project's custom aliases and scripts, you can include the project's 
    Open your `~/.bashrc` file with a text editor, such as `nano` or `vim`:
    ```bash
    nano ~/.bashrc
+   ```
    
 3. **Add the following lines to the end of the `~/.bashrc` file**
    Replace `/path/to/project` with the absolute path where you cloned the project.
@@ -39,8 +41,10 @@ To use this project's custom aliases and scripts, you can include the project's 
    if [ -f /path/to/project/.bashrc ]; then
        . /path/to/project/.bashrc
    fi
+   ```
 
 4. **Reload your Bash configuration**
    To apply the changes immediately, run the following command:
    ```bash
    source ~/.bashrc
+   ```
