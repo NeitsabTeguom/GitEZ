@@ -11,8 +11,8 @@ A collection of Bash aliases scripts to automate Git commands.
 - `gez-hf` : Finalize a hotfix.
 - `gez-rs` : Start a release.
 - `gez-rf` : Finalize a release.
-- `gez-f ` : Finish the current branch.
-- `gez-s ` : Quick save (add + commit + push).
+- `gez-f`  : Finish the current branch.
+- `gez-s`  : Quick save (add + commit + push).
 - `gez-gm` : Get the master name branch.
 
 ## Installation
