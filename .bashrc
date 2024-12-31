@@ -2,6 +2,9 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Help
+alias gez-h="$DIR/help.sh"
+
 # Feature
 alias gez-fs="$DIR/feature-start.sh"
 alias gez-ff="$DIR/feature-finish.sh"
@@ -18,11 +21,14 @@ alias gez-hf="$DIR/hotfix-finish.sh"
 alias gez-rs="$DIR/release-start.sh"
 alias gez-rf="$DIR/release-finish.sh"
 
-# Automation of local changes and sending
-alias gez-save="$DIR/push-all.sh"
+# Finish the current branch
+alias gez-f="$DIR/finish.sh"
 
-# To check out the master branch automatically
-alias gez-main="$DIR/inc/detect-main-branch.sh && echo \$MAIN_BRANCH"
+# Automation of local changes and sending
+alias gez-s="$DIR/push-all.sh"
+
+# Get the master name branch
+alias gez-gm="$DIR/inc/detect-main-branch.sh && echo \$MAIN_BRANCH"
 
 # Common commands
 alias gadd="git add ."
