@@ -1,18 +1,19 @@
-# Git EZ Scripts
+# Git EZ
 
-A collection of Bash scripts to automate Git commands.
+A collection of Bash aliases scripts to automate Git commands.
 
-## Included scripts
-- `feature-start.sh` : Create a new feature.
-- `feature-finish.sh` : Finalize a feature.
-- `bugfix-start.sh` : Create a bugfix.
-- `bugfix-finish.sh` : Finalize a bugfix.
-- `hotfix-start.sh` : Create a hotfix.
-- `hotfix-finish.sh` : Finalize a hotfix.
-- `release-start.sh` : Create a release.
-- `release-finish.sh` : Finalize a release.
-- `finish.sh` : Finalize current branch.
-- `push-all.sh` : Local changes and sending
+## Included aliases scripts
+- `gez-fs` : Start a new feature.
+- `gez-ff` : Finalize a feature.
+- `gez-bs` : Start a bugfix.
+- `gez-bf` : Finalize a bugfix.
+- `gez-hs` : Start a hotfix.
+- `gez-hf` : Finalize a hotfix.
+- `gez-rs` : Start a release.
+- `gez-rf` : Finalize a release.
+- `gez-f ` : Finish the current branch.
+- `gez-s ` : Quick save (add + commit + push).
+- `gez-gm` : Get the master name branch.
 
 ## Installation
 
