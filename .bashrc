@@ -18,6 +18,9 @@ alias gez-hf="$DIR/hotfix-finish.sh"
 alias gez-rs="$DIR/release-start.sh"
 alias gez-rf="$DIR/release-finish.sh"
 
+# Finish the current branch
+alias gez-f="$DIR/finish.sh"
+
 # Automation of local changes and sending
 alias gez-save="$DIR/push-all.sh"
 
