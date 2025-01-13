@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Inclusion du fichier utils
+source `dirname $0`/inc/utils.sh
+
 # Récupère la branche en cours
 CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 
@@ -13,6 +16,21 @@ HOTFIX_BRANCH=$CURRENT_BRANCH
 DEVELOP_BRANCH="develop"
 
 echo "Détection de la branche hotfix : $HOTFIX_BRANCH"
+
+# Extraire la version de la branche
+HOTFIX_VERSION=${HOTFIX_BRANCH#hotfix/}
+
+# Vérifier si HOTFIX_VERSION est valide
+if ! validate_version "$HOTFIX_VERSION"; then
+    echo "La version détectée ($HOTFIX_VERSION) n'est pas valide."
+    read -p "Veuillez entrer une version valide (format X.Y.Z) : " HOTFIX_VERSION
+    while ! validate_version "$HOTFIX_VERSION"; do
+        echo "Format de version invalide. Essayez à nouveau."
+        read -p "Veuillez entrer une version valide (format X.Y.Z) : " HOTFIX_VERSION
+    done
+fi
+
+echo "Version valide détectée : $HOTFIX_VERSION"
 
 # Inclusion du fichier de détection de branche principale
 source `dirname $0`/inc/detect-main-branch.sh
@@ -48,7 +66,6 @@ if [ $? -ne 0 ]; then
 fi
 
 # Tag la version
-HOTFIX_VERSION=${HOTFIX_BRANCH#hotfix/}
 git tag -a "$HOTFIX_VERSION" -m "Version $HOTFIX_VERSION"
 if [ $? -ne 0 ]; then
   echo "Erreur : Impossible de créer le tag."
