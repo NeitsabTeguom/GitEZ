@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Récupérer la branche actuelle
+# Fetch the current branch
 current_branch=$(git symbolic-ref --short HEAD)
 
-# Fonction pour détecter le type de branche
+# Function to detect branch type
 detect_branch_type() {
     case "$current_branch" in
         hotfix/*)
@@ -24,36 +24,36 @@ detect_branch_type() {
     esac
 }
 
-# Détection du type de branche
+# Detect branch type
 branch_type=$(detect_branch_type)
 
-# Vérification si le type de branche est valide
+# Check if branch type is valid
 if [ "$branch_type" == "unknown" ]; then
-    echo "Erreur : La branche '$current_branch' ne correspond pas à un type connu (hotfix, bugfix, feature, release)."
+    echo "Error : Branch '$current_branch' does not match a known type (hotfix, bugfix, feature, release)."
     exit 1
 fi
 
-# Appel du script correspondant
-echo "Branche détectée : $current_branch ($branch_type)"
+# Call the corresponding script
+echo "Branch detected : $current_branch ($branch_type)"
 case "$branch_type" in
     hotfix)
-        echo "Lancement de hotfix-finish.sh..."
+        echo "Running hotfix-finish.sh..."
         `dirname $0`/hotfix-finish.sh
         ;;
     bugfix)
-        echo "Lancement de bugfix-finish.sh..."
+        echo "Running bugfix-finish.sh..."
         `dirname $0`/bugfix-finish.sh
         ;;
     feature)
-        echo "Lancement de feature-finish.sh..."
+        echo "Running feature-finish.sh..."
         `dirname $0`/feature-finish.sh
         ;;
     release)
-        echo "Lancement de release-finish.sh..."
+        echo "Running release-finish.sh..."
         `dirname $0`/release-finish.sh
         ;;
     *)
-        echo "Erreur inattendue."
+        echo "Unexpected error."
         exit 1
         ;;
 esac

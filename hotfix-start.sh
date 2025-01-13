@@ -1,57 +1,57 @@
 #!/bin/bash
 
-# Vérifie qu'un nom de hotfix est passé en paramètre
+# Check that a hotfix name is passed as a parameter
 if [ -z "$1" ]; then
-  echo "Usage: $0 <hotfix-name>"
+  echo "Usage : $0 <hotfix-name>"
   exit 1
 fi
 
 HOTFIX_NAME=$1
 HOTFIX_BRANCH="hotfix/$HOTFIX_NAME"
 
-# Inclusion du fichier de détection de branche principale
+# Include the main branch detection file
 source `dirname $0`/inc/detect-main-branch.sh
 
-# Vérifie si la branche main existe
+# Check if the main branch exists
 if ! git show-ref --verify --quiet refs/heads/$MAIN_BRANCH; then
-  echo "Erreur : La branche '$MAIN_BRANCH' n'existe pas."
+  echo "Error : Branch '$MAIN_BRANCH' does not exist."
   exit 1
 fi
 
-# Vérifie si la branche hotfix existe déjà
+# Check if the hotfix branch already exists
 if git show-ref --verify --quiet refs/heads/$HOTFIX_BRANCH; then
-  echo "Erreur : La branche '$HOTFIX_BRANCH' existe déjà."
+  echo "Error : Branch '$HOTFIX_BRANCH' already exists."
   exit 1
 fi
 
-echo "Commence la création du hotfix : $HOTFIX_BRANCH"
+echo "Start creating hotfix : $HOTFIX_BRANCH"
 
-# Basculer sur la branche main
+# Switch to main branch
 git checkout $MAIN_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de basculer sur la branche '$MAIN_BRANCH'."
+  echo "Error : Could not switch to branch '$MAIN_BRANCH'."
   exit 1
 fi
 
-# Met à jour la branche main (optionnel mais recommandé)
+# Update main branch (optional but recommended)
 git pull origin $MAIN_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de mettre à jour la branche '$MAIN_BRANCH'."
+  echo "Error : Could not update branch '$MAIN_BRANCH'."
   exit 1
 fi
 
-# Crée la branche hotfix
+# Create hotfix branch
 git checkout -b $HOTFIX_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de créer la branche '$HOTFIX_BRANCH'."
+  echo "Error : Unable to create branch '$HOTFIX_BRANCH'."
   exit 1
 fi
 
-# Pousse la branche à distance
+# Push the branch to remote
 git push -u origin $HOTFIX_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de pousser la branche '$HOTFIX_BRANCH' sur le dépôt distant."
+  echo "Error : Unable to push branch '$HOTFIX_BRANCH' to remote repository."
   exit 1
 fi
 
-echo "Hotfix '$HOTFIX_BRANCH' créé avec succès !"
+echo "Hotfix '$HOTFIX_BRANCH' created successfully!"
