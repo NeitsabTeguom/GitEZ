@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Vérifie qu'un nom de bugfix est passé en paramètre
+# Check that a bugfix name is passed as a parameter
 if [ -z "$1" ]; then
-  echo "Usage: $0 <bugfix-name>"
+  echo "Usage : $0 <bugfix-name>"
   exit 1
 fi
 
@@ -10,46 +10,46 @@ BUGFIX_NAME=$1
 DEVELOP_BRANCH="develop"
 BUGFIX_BRANCH="bugfix/$BUGFIX_NAME"
 
-# Vérifie si la branche develop existe
+# Check if the develop branch exists
 if ! git show-ref --verify --quiet refs/heads/$DEVELOP_BRANCH; then
-  echo "Erreur : La branche '$DEVELOP_BRANCH' n'existe pas."
+  echo "Error : Branch '$DEVELOP_BRANCH' does not exist."
   exit 1
 fi
 
-# Vérifie si la branche bugfix existe déjà
+# Check if the bugfix branch already exists
 if git show-ref --verify --quiet refs/heads/$BUGFIX_BRANCH; then
-  echo "Erreur : La branche '$BUGFIX_BRANCH' existe déjà."
+  echo "Error : Branch '$BUGFIX_BRANCH' already exists."
   exit 1
 fi
 
-echo "Commence la création du bugfix : $BUGFIX_BRANCH"
+echo "Start creating bugfix: $BUGFIX_BRANCH"
 
-# Basculer sur la branche develop
+# Switch to develop branch
 git checkout $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de basculer sur la branche '$DEVELOP_BRANCH'."
+  echo "Error : Could not switch to branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Met à jour la branche develop
+# Update develop branch
 git pull origin $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de mettre à jour la branche '$DEVELOP_BRANCH'."
+  echo "Error : Could not update branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Crée la branche bugfix
+# Create bugfix branch
 git checkout -b $BUGFIX_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de créer la branche '$BUGFIX_BRANCH'."
+  echo "Error : Could not create branch '$BUGFIX_BRANCH'."
   exit 1
 fi
 
-# Pousse la branche à distance
+# Push the branch to remote
 git push -u origin $BUGFIX_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de pousser la branche '$BUGFIX_BRANCH' sur le dépôt distant."
+  echo "Error : Could not push branch '$BUGFIX_BRANCH' to remote repository."
   exit 1
 fi
 
-echo "Bugfix '$BUGFIX_BRANCH' créée avec succès !"
+echo "Bugfix '$BUGFIX_BRANCH' created successfully!"

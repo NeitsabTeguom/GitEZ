@@ -1,59 +1,59 @@
 #!/bin/bash
 
-# Récupère la branche en cours
+# Get the current branch
 CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 
-# Vérifie si la branche actuelle est une branche feature
+# Check if the current branch is a feature branch
 if [[ $CURRENT_BRANCH != feature/* ]]; then
-  echo "Erreur : La branche actuelle ('$CURRENT_BRANCH') n'est pas une branche feature."
+  echo "Error : The current branch ('$CURRENT_BRANCH') is not a feature branch."
   exit 1
 fi
 
 FEATURE_BRANCH=$CURRENT_BRANCH
 DEVELOP_BRANCH="develop"
 
-echo "Détection de la branche feature : $FEATURE_BRANCH"
+echo "Feature branch detected : $FEATURE_BRANCH"
 
-# Vérification de l'état du repository
+# Check the repository status
 if ! git diff-index --quiet HEAD --; then
-  echo "Erreur : Vous avez des modifications non commit dans votre repository."
+  echo "Error : You have uncommitted changes in your repository."
   exit 1
 fi
 
-# Vérifie si la branche develop existe
+# Check if the develop branch exists
 if ! git show-ref --verify --quiet refs/heads/$DEVELOP_BRANCH; then
-  echo "Erreur : La branche '$DEVELOP_BRANCH' n'existe pas."
+  echo "Error : Branch '$DEVELOP_BRANCH' does not exist."
   exit 1
 fi
 
-echo "Commence la finalisation de la feature : $FEATURE_BRANCH"
+echo "Starting finalization of feature : $FEATURE_BRANCH"
 
-# Basculer sur la branche develop
+# Switch to develop branch
 git checkout $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de basculer sur la branche '$DEVELOP_BRANCH'."
+  echo "Error : Failed to switch to branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Merge de la branche feature dans develop
+# Merge feature branch into develop
 git merge --no-ff $FEATURE_BRANCH -m "Merge feature '$FEATURE_BRANCH' into $DEVELOP_BRANCH"
 if [ $? -ne 0 ]; then
-  echo "Erreur : Le merge sur '$DEVELOP_BRANCH' a échoué."
+  echo "Error : Merge on '$DEVELOP_BRANCH' failed."
   exit 1
 fi
 
-# Supprimer la branche feature
+# Delete feature branch
 git branch -d $FEATURE_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de supprimer la branche '$FEATURE_BRANCH'."
+  echo "Error : Could not delete branch '$FEATURE_BRANCH'."
   exit 1
 fi
 
-# Pousser les changements à distance
+# Push changes to remote
 git push origin $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de pousser les modifications sur le dépôt distant."
+  echo "Error : Could not push changes to remote repository."
   exit 1
 fi
 
-echo "Feature '$FEATURE_BRANCH' finalisée avec succès !"
+echo "Feature '$FEATURE_BRANCH' completed successfully!"
