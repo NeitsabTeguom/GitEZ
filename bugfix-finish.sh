@@ -13,7 +13,7 @@ DEVELOP_BRANCH="develop"
 
 # Check if the develop branch exists
 if ! git show-ref --verify --quiet refs/heads/$DEVELOP_BRANCH; then
-  echo "Error: Branch '$DEVELOP_BRANCH' does not exist."
+  echo "Error : Branch '$DEVELOP_BRANCH' does not exist."
   exit 1
 fi
 

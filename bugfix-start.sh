@@ -2,7 +2,7 @@
 
 # Check that a bugfix name is passed as a parameter
 if [ -z "$1" ]; then
-  echo "Usage: $0 <bugfix-name>"
+  echo "Usage : $0 <bugfix-name>"
   exit 1
 fi
 

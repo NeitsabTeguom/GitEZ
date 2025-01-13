@@ -2,7 +2,7 @@
 
 # Check that a feature name is passed as a parameter
 if [ -z "$1" ]; then
-  echo "Usage: $0 <feature-name>"
+  echo "Usage : $0 <feature-name>"
   exit 1
 fi
 

@@ -2,7 +2,7 @@
 
 # Check that a hotfix name is passed as a parameter
 if [ -z "$1" ]; then
-  echo "Usage: $0 <hotfix-name>"
+  echo "Usage : $0 <hotfix-name>"
   exit 1
 fi
 

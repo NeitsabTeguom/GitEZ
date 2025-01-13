@@ -8,7 +8,7 @@ CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 
 # Checks if the current branch is a release branch
 if [[ $CURRENT_BRANCH != release/* ]]; then
-  echo "Error: The current branch ('$CURRENT_BRANCH') is not a release branch."
+  echo "Error : The current branch ('$CURRENT_BRANCH') is not a release branch."
   exit 1
 fi
 
@@ -37,7 +37,7 @@ source `dirname $0`/inc/detect-main-branch.sh
 
 # Check repository status
 if ! git diff-index --quiet HEAD --; then
-  echo "Error: You have uncommitted changes in your repository."
+  echo "Error : You have uncommitted changes in your repository."
   exit 1
 fi
 
@@ -54,7 +54,7 @@ echo "Begin finalizing release : $RELEASE_BRANCH"
 # Switch to main branch
 git checkout $MAIN_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Error: Unable to switch to branch '$MAIN_BRANCH'."
+  echo "Error : Unable to switch to branch '$MAIN_BRANCH'."
   exit 1
 fi
 
