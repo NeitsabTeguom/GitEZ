@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Vérifie qu'un nom de release est passé en paramètre
+# Checks that a release name is passed as a parameter
 if [ -z "$1" ]; then
   echo "Usage: $0 <release-name>"
   exit 1
@@ -10,46 +10,46 @@ RELEASE_NAME=$1
 DEVELOP_BRANCH="develop"
 RELEASE_BRANCH="release/$RELEASE_NAME"
 
-# Vérifie si la branche develop existe
+# Check if the develop branch exists
 if ! git show-ref --verify --quiet refs/heads/$DEVELOP_BRANCH; then
-  echo "Erreur : La branche '$DEVELOP_BRANCH' n'existe pas."
+  echo "Error : Branch '$DEVELOP_BRANCH' does not exist."
   exit 1
 fi
 
-# Vérifie si la branche release existe déjà
+# Check if the release branch already exists
 if git show-ref --verify --quiet refs/heads/$RELEASE_BRANCH; then
-  echo "Erreur : La branche '$RELEASE_BRANCH' existe déjà."
+  echo "Error : Branch '$RELEASE_BRANCH' already exists."
   exit 1
 fi
 
-echo "Commence la création de la release : $RELEASE_BRANCH"
+echo "Start creating the release : $RELEASE_BRANCH"
 
-# Basculer sur la branche develop
+# Switch to the develop branch
 git checkout $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de basculer sur la branche '$DEVELOP_BRANCH'."
+  echo "Error : Unable to switch to branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Met à jour la branche develop (optionnel mais conseillé)
+#Update the develop branch (optional but recommended)
 git pull origin $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de mettre à jour la branche '$DEVELOP_BRANCH'."
+  echo "Error : Unable to update branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Crée la branche release
+# Create the release branch
 git checkout -b $RELEASE_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de créer la branche '$RELEASE_BRANCH'."
+  echo "Error : Unable to create branch '$RELEASE_BRANCH'."
   exit 1
 fi
 
-# Pousse la branche à distance
+# Push the branch away
 git push -u origin $RELEASE_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de pousser la branche '$RELEASE_BRANCH' sur le dépôt distant."
+  echo "Error : Unable to push branch '$RELEASE_BRANCH' to remote repository."
   exit 1
 fi
 
-echo "Release '$RELEASE_BRANCH' créée avec succès !"
+echo "Release '$RELEASE_BRANCH' created successfully!"

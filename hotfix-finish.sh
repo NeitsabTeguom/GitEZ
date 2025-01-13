@@ -1,103 +1,103 @@
 #!/bin/bash
 
-# Inclusion du fichier utils
+# Including the utils file
 source `dirname $0`/inc/utils.sh
 
-# Récupère la branche en cours
+# Fetch the current branch
 CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 
-# Vérifie si la branche actuelle est une branche hotfix
+# Check if the current branch is a hotfix branch
 if [[ $CURRENT_BRANCH != hotfix/* ]]; then
-  echo "Erreur : La branche actuelle ('$CURRENT_BRANCH') n'est pas une branche hotfix."
+  echo "Error : Current branch ('$CURRENT_BRANCH') is not a hotfix branch."
   exit 1
 fi
 
 HOTFIX_BRANCH=$CURRENT_BRANCH
 DEVELOP_BRANCH="develop"
 
-echo "Détection de la branche hotfix : $HOTFIX_BRANCH"
+echo "Hotfix branch detected: $HOTFIX_BRANCH"
 
-# Extraire la version de la branche
+# Fetch the branch version
 HOTFIX_VERSION=${HOTFIX_BRANCH#hotfix/}
 
-# Vérifier si HOTFIX_VERSION est valide
+# Check if HOTFIX_VERSION is valid
 if ! validate_version "$HOTFIX_VERSION"; then
-    echo "La version détectée ($HOTFIX_VERSION) n'est pas valide."
-    read -p "Veuillez entrer une version valide (format X.Y.Z) : " HOTFIX_VERSION
+    echo "The detected version ($HOTFIX_VERSION) is not valid."
+    read -p "Please enter a valid version (X.Y.Z format) : " HOTFIX_VERSION
     while ! validate_version "$HOTFIX_VERSION"; do
-        echo "Format de version invalide. Essayez à nouveau."
-        read -p "Veuillez entrer une version valide (format X.Y.Z) : " HOTFIX_VERSION
+        echo "Invalid version format. Try again."
+        read -p "Please enter a valid version (X.Y.Z format) : " HOTFIX_VERSION
     done
 fi
 
-echo "Version valide détectée : $HOTFIX_VERSION"
+echo "Valid version detected: $HOTFIX_VERSION"
 
-# Inclusion du fichier de détection de branche principale
+# Include main branch detection file
 source `dirname $0`/inc/detect-main-branch.sh
 
-# Vérification de l'état du repository
+# Check repository status
 if ! git diff-index --quiet HEAD --; then
-  echo "Erreur : Vous avez des modifications non commit dans votre repository."
+  echo "Error : You have uncommitted changes in your repository."
   exit 1
 fi
 
-# Vérifie si les branches main et develop existent
+# Check if main and develop branches exist
 for branch in $MAIN_BRANCH $DEVELOP_BRANCH; do
   if ! git show-ref --verify --quiet refs/heads/$branch; then
-    echo "Erreur : La branche '$branch' n'existe pas."
+    echo "Error : Branch '$branch' does not exist."
     exit 1
   fi
 done
 
-echo "Commence la finalisation du hotfix : $HOTFIX_BRANCH"
+echo "Starting finalization of hotfix: $HOTFIX_BRANCH"
 
-# Basculer sur la branche main
+# Switch to main branch
 git checkout $MAIN_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de basculer sur la branche '$MAIN_BRANCH'."
+  echo "Error : Could not switch to branch '$MAIN_BRANCH'."
   exit 1
 fi
 
-# Merge de la branche hotfix dans main
+# Merge hotfix branch into main
 git merge --no-ff $HOTFIX_BRANCH -m "Merge hotfix '$HOTFIX_BRANCH' into $MAIN_BRANCH"
 if [ $? -ne 0 ]; then
-  echo "Erreur : Le merge sur '$MAIN_BRANCH' a échoué."
+  echo "Error : Merge on '$MAIN_BRANCH' failed."
   exit 1
 fi
 
-# Tag la version
+# Tag the version
 git tag -a "$HOTFIX_VERSION" -m "Version $HOTFIX_VERSION"
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de créer le tag."
+  echo "Error : Failed to create tag."
   exit 1
 fi
 
-# Basculer sur la branche develop
+# Switch to develop branch
 git checkout $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de basculer sur la branche '$DEVELOP_BRANCH'."
+  echo "Error : Failed to switch to branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Merge de la branche hotfix dans develop
+# Merge hotfix branch into develop
 git merge --no-ff $HOTFIX_BRANCH -m "Merge hotfix '$HOTFIX_BRANCH' into $DEVELOP_BRANCH"
 if [ $? -ne 0 ]; then
-  echo "Erreur : Le merge sur '$DEVELOP_BRANCH' a échoué."
+  echo "Error : Merge on '$DEVELOP_BRANCH' failed."
   exit 1
 fi
 
-# Supprimer la branche hotfix
+# Delete hotfix branch
 git branch -d $HOTFIX_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de supprimer la branche '$HOTFIX_BRANCH'."
+  echo "Error : Could not delete branch '$HOTFIX_BRANCH'."
   exit 1
 fi
 
-# Pousser les changements à distance
+# Push changes to remote
 git push origin $MAIN_BRANCH $DEVELOP_BRANCH --tags
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de pousser les modifications sur le dépôt distant."
+  echo "Error : Could not push changes to remote repository."
   exit 1
 fi
 
-echo "Hotfix '$HOTFIX_BRANCH' finalisé avec succès !"
+echo "Hotfix '$HOTFIX_BRANCH' completed successfully!"

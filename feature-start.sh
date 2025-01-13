@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Vérifie qu'un nom de feature est passé en paramètre
+# Check that a feature name is passed as a parameter
 if [ -z "$1" ]; then
   echo "Usage: $0 <feature-name>"
   exit 1
@@ -10,46 +10,46 @@ FEATURE_NAME=$1
 DEVELOP_BRANCH="develop"
 FEATURE_BRANCH="feature/$FEATURE_NAME"
 
-# Vérifie si la branche develop existe
+# Check if the develop branch exists
 if ! git show-ref --verify --quiet refs/heads/$DEVELOP_BRANCH; then
-  echo "Erreur : La branche '$DEVELOP_BRANCH' n'existe pas."
+  echo "Error : Branch '$DEVELOP_BRANCH' does not exist."
   exit 1
 fi
 
-# Vérifie si la branche feature existe déjà
+# Check if the feature branch already exists
 if git show-ref --verify --quiet refs/heads/$FEATURE_BRANCH; then
-  echo "Erreur : La branche '$FEATURE_BRANCH' existe déjà."
+  echo "Error : Branch '$FEATURE_BRANCH' already exists."
   exit 1
 fi
 
-echo "Commence la création de la feature : $FEATURE_BRANCH"
+echo "Start creating feature: $FEATURE_BRANCH"
 
-# Basculer sur la branche develop
+# Switch to develop branch
 git checkout $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de basculer sur la branche '$DEVELOP_BRANCH'."
+  echo "Error : Could not switch to branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Met à jour la branche develop (optionnel, mais conseillé)
+# Update develop branch (optional, but recommended)
 git pull origin $DEVELOP_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de mettre à jour la branche '$DEVELOP_BRANCH'."
+  echo "Error : Could not update branch '$DEVELOP_BRANCH'."
   exit 1
 fi
 
-# Crée la branche feature
+# Create feature branch
 git checkout -b $FEATURE_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de créer la branche '$FEATURE_BRANCH'."
+  echo "Error: Could not create branch '$FEATURE_BRANCH'."
   exit 1
 fi
 
-# Pousse la branche à distance
+# Push the branch to remote
 git push -u origin $FEATURE_BRANCH
 if [ $? -ne 0 ]; then
-  echo "Erreur : Impossible de pousser la branche '$FEATURE_BRANCH' sur le dépôt distant."
+  echo "Error: Could not push branch '$FEATURE_BRANCH' to remote repository."
   exit 1
 fi
 
-echo "Feature '$FEATURE_BRANCH' créée avec succès !"
+echo "Feature '$FEATURE_BRANCH' created successfully!"
