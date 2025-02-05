@@ -65,6 +65,13 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Check if tag exists
+if git rev-parse "$RELEASE_VERSION" >/dev/null 2>&1; then
+  echo "Tag $RELEASE_VERSION exists, deleting..."
+  git tag -d "$RELEASE_VERSION"
+  git push origin --delete "$RELEASE_VERSION"
+fi
+
 # Tag the version
 git tag -a "$RELEASE_VERSION" -m "Release version $RELEASE_VERSION"
 if [ $? -ne 0 ]; then
