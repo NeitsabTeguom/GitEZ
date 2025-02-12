@@ -22,26 +22,39 @@ Clone this repository :
    git clone https://github.com/NeitsabTeguom/GitEZ.git
    ```
 
-## Integrating the project's `.bashrc`
+   For Windows dont forget to install [Git bash](https://git-scm.com/downloads).
 
-To use this project's custom aliases and scripts, you can include the project's `.bashrc` file in your personal `~/.bashrc` file.
+## Integrating the GitEZ `.bashrc`
 
-1. **Locate the project's `.bashrc` file**  
-   Once the project is cloned, the `.bashrc` file will be available at the root of the project directory.
-   Make sure to note the path where you cloned this project.
+To use GitEZ's custom aliases and scripts, you can include GitEZ `.bashrc` file in your personal `~/.bashrc` file.
+
+1. **Locate the GitEZ `.bashrc` file**  
+
+   Once GitEZ is cloned, the `.bashrc` file will be available at the root of GitEZ directory.
+
+   Make sure to note the path where you cloned GitEZ !
 
 2. **Edit your user `~/.bashrc` file**  
-   Open your `~/.bashrc` file on your user directory with a text editor, such as `nano` or `vim`:
+
+   Open your `~/.bashrc` file on your user directory with a text editor, such as `nano` or `vim` (or Notpad in Windows):
    ```bash
    nano ~/.bashrc
    ```
    It could be `~/.bash_profile` or `~/.profile`.
 
 3. **Add the following lines to the end of the `~/.bashrc` file**
-   Replace `/path/to/project` with the absolute path where you cloned the project.
+
+   Replace `/path/to/GitEZ` with the absolute path where you cloned GitEZ.
    ```bash
-   if [ -f /path/to/project/.bashrc ]; then
-       . /path/to/project/.bashrc
+   if [ -f /path/to/GitEZ/.bashrc ]; then
+       . /path/to/GitEZ/.bashrc
+   fi
+   ```
+
+   For windows do not forget the disk drive letter :
+   ```bash
+   if [ -f /c/path/to/GitEZ/.bashrc ]; then
+       . /c/path/to/GitEZ/.bashrc
    fi
    ```
 
