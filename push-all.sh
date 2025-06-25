@@ -25,6 +25,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# todo : push stream origin
 echo "Pushing changes to remote repository..."
 git push
 
