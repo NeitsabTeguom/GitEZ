@@ -8,6 +8,13 @@ fi
 
 COMMIT_MESSAGE="$1"
 
+# Including the utils file
+source `dirname $0`/inc/utils.sh
+
+# Fetch the current branch
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
+echo "Current branch : $CURRENT_BRANCH"
+
 echo "Adding all changed files to tracker..."
 git add .
 
@@ -25,8 +32,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "Pushing changes to remote repository..."
-git push
+# Vérifie si la branche a un suivi distant
+if ! git rev-parse --abbrev-ref --symbolic-full-name @{u} > /dev/null 2>&1; then
+    echo "Pushing changes with origin to remote repository..."
+    git push --set-upstream origin "$CURRENT_BRANCH"
+else
+    echo "Pushing changes to remote repository..."
+    git push
+fi
 
 if [ $? -ne 0 ]; then
   echo "Error: Unable to push changes."
