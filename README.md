@@ -28,6 +28,13 @@ Clone this repository :
 
 To use GitEZ's custom aliases and scripts, you can include GitEZ `.bashrc` file in your personal `~/.bashrc` file.
 
+1. **GitEZ as executable for Linux**
+
+   Make scripts executables for Linux
+   ```bash
+   chmod -R +x /path/to/GitEZ/*.*
+   ```
+
 1. **Locate the GitEZ `.bashrc` file**  
 
    Once GitEZ is cloned, the `.bashrc` file will be available at the root of GitEZ directory.
